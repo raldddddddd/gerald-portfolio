@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { Project } from "@/data/portfolio";
+import { TechnologyBadges } from "@/components/TechnologyBadges";
 
 export function ProjectConsoleHero({ projects }: { projects: Project[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -51,9 +52,7 @@ export function ProjectConsoleHero({ projects }: { projects: Project[] }) {
             </div>
             <div className="console-screen-bottom">
               <span className="console-tech-label">BUILT WITH</span>
-              <ul className="console-tech-list">
-                {activeProject.technologies.slice(0, 4).map((technology) => <li key={technology}>{technology}</li>)}
-              </ul>
+              <TechnologyBadges className="console-tech-list" technologies={activeProject.technologies.slice(0, 4)} />
               <a className="console-all-projects" href="#projects" aria-label={`See all projects, including ${activeProject.name}`}>
                 ALL PROJECTS <span aria-hidden="true">↗</span>
               </a>
@@ -66,9 +65,7 @@ export function ProjectConsoleHero({ projects }: { projects: Project[] }) {
 
       <aside className="project-console-callout project-console-callout--right" aria-live="polite">
         <span className="console-callout-label">MADE WITH</span>
-        <ul>
-          {activeProject.technologies.slice(0, 3).map((technology) => <li key={technology}>{technology}</li>)}
-        </ul>
+        <TechnologyBadges className="console-callout-tech-list" technologies={activeProject.technologies.slice(0, 3)} />
       </aside>
     </div>
   );

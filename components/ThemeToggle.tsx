@@ -190,11 +190,20 @@ export function ThemeToggle() {
           <g transform={`translate(0 ${motion.extension})`} className="theme-cord-knob">
             <path d="M24 70v3" className="theme-cord-line" />
             <path d="M16 72h16v4c0 3-3 5-8 5s-8-2-8-5v-4Z" fill="var(--accent-bright)" />
-            <g transform="translate(3.6 0) scale(.85 1)">
-              <path d="M15 80C15 86 8.2 91 6.6 99 4.4 111.5 9.5 122.5 17 126.2c.7.4 1.2.6 2 .6h10c.8 0 1.3-.2 2-.6 7.5-3.7 12.6-14.7 10.4-27.2C39.8 91 33 86 33 80c-5 1.5-13 1.5-18 0Z" fill="var(--accent)" />
-              <path d="M15 91c-3 7-3 14 0 20m5-27c1 2 1.5 3.5 1.5 5" stroke="var(--paper)" strokeOpacity=".42" strokeWidth="1.5" strokeLinecap="round" />
-            </g>
             <path d="M17 77c3 1.1 11 1.1 14 0" stroke="var(--paper)" strokeOpacity=".65" strokeWidth="1.2" strokeLinecap="round" />
+            <g transform="translate(3.6 0) scale(.85 1)">
+              <path
+                d="M15 80 C15 86 8.2 91 6.6 99 C4.4 111.5 9.5 122.5 17 126.2 C18.5 127 19.5 127.2 21 127.2 H27 C28.5 127.2 29.5 127 31 126.2 C38.5 122.5 43.6 111.5 41.4 99 C39.8 91 33 86 33 80 C28 81.5 20 81.5 15 80Z"
+                fill="var(--accent)"
+              />
+              <path
+                d="M15 91c-3 7-3 14 0 20m5-27c1 2 1.5 3.5 1.5 5"
+                stroke="var(--paper)"
+                strokeOpacity=".42"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
+            </g>
           </g>
         </g>
       </svg>

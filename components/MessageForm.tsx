@@ -31,7 +31,7 @@ export function MessageForm() {
           <span>Email <i aria-hidden="true">*</i></span>
           <input autoComplete="email" name="email" required type="email" />
         </label>
-        <label className="form-field">
+        <label className="form-field form-field-subject">
           <span>Subject <i aria-hidden="true">*</i></span>
           <select defaultValue="" name="subject" required>
             <option disabled value="">Choose a subject</option>
