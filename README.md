@@ -17,18 +17,20 @@ Most portfolio content lives in [`data/portfolio.ts`](./data/portfolio.ts). Upda
 
 Project entries have `githubUrl`, `liveUrl`, and `image` fields. Add a URL to show the corresponding project link. Put image files under `public/images/` and set `image` to a path such as `/images/project-name.png` to show it on the reusable project card.
 
-Contact information starts blank so personal contact details are not published accidentally. Add only the public email and profile links you want visitors to see in `portfolio.contact`.
+Public contact information is stored in `portfolio.contact` and shown in the Contact section and site footer.
 
 Project and internship summaries currently use Lorem Ipsum placeholders. Replace them with your own descriptions when ready.
 
-## Pages
+## Portfolio sections
 
-- `/` — Home and featured projects
-- `/software-development` — Inbetween and Pop Hop
-- `/ai-data-science` — InstaHAM
-- `/experience` — Inari Amertron MIS internship
-- `/about` — Education, coursework, skills, and certifications
-- `/contact` — Public contact links
+- `#home` — Personal introduction
+- `#projects` — Projects and experience
+- `#about` — Education, coursework, skills, and certifications
+- `#contact` — Public contact links
+
+The portfolio is a single scrolling page at `/`; the navigation links scroll to these sections.
+
+The main `/` hero uses an interactive, centered project console. An experimental cat-themed hero preview is available at `/cat-theme`.
 
 ## Deploy to Vercel
 

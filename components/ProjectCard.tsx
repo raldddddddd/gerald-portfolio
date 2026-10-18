@@ -1,8 +1,8 @@
 import type { Project } from "@/data/portfolio";
 
-export function ProjectCard({ project }: { project: Project }) {
+export function ProjectCard({ project, variant }: { project: Project; variant?: "featured" }) {
   return (
-    <article className="project-card">
+    <article className={`project-card${variant === "featured" ? " project-card--featured" : ""}`}>
       {project.image && <img className="project-image" src={project.image} alt={`${project.name} preview`} />}
       <div className="card-topline">
         <span className="eyebrow">{project.kind}</span>

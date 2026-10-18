@@ -98,8 +98,8 @@ export const portfolio = {
     },
   ],
   contact: {
-    email: "",
-    github: "",
-    linkedin: "",
+    email: "santiagogeraldandrei@gmail.com",
+    github: "https://github.com/raldddddddd",
+    linkedin: "https://www.linkedin.com/in/gerald-andrei-santiago/",
   },
 };
