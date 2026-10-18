@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { advanceAngularSpring, angularSpringHasSettled, getHoverSwayImpulse } from "@/components/hoverSway";
 
 type PullMotion = { extension: number; angle: number };
 type PullSample = { y: number; x: number; time: number };
@@ -70,10 +71,11 @@ export function ThemeToggle() {
       // A lightly damped spring gives the weighted tassel several diminishing bounces.
       speed += (-250 * position - 7 * speed) * dt;
       position += speed * dt;
-      spin += (-88 * rotation - 4.5 * spin + speed * 0.025) * dt;
-      rotation += spin * dt;
+      const angularMotion = advanceAngularSpring(rotation, spin, dt, speed * 0.025);
+      rotation = angularMotion.angle;
+      spin = angularMotion.velocity;
       setMotion({ extension: position, angle: rotation });
-      if (Math.abs(position) < 0.2 && Math.abs(speed) < 3 && Math.abs(rotation) < 0.35 && Math.abs(spin) < 4) {
+      if (Math.abs(position) < 0.2 && Math.abs(speed) < 3 && angularSpringHasSettled(rotation, spin)) {
         animationFrame.current = null;
         setMotion({ extension: 0, angle: 0 });
         setIsRecoiling(false);
@@ -97,7 +99,8 @@ export function ThemeToggle() {
     if (event.pointerType !== "mouse" || dragStart.current) return;
     // A small impulse makes the tassel respond as the pointer brushes past it.
     // Negative SVG rotation moves the lower end to the right.
-    const impulse = event.clientX < event.currentTarget.getBoundingClientRect().left + 24 ? -105 : 105;
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const impulse = getHoverSwayImpulse(event.clientX, { left: bounds.left, right: bounds.left + 48 });
     recoil(motion.extension, 0, motion.angle, impulse);
   };
 

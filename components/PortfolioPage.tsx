@@ -1,10 +1,11 @@
 import { ContactDetails } from "@/components/ContactDetails";
 import { CatTreeHero } from "@/components/CatTreeHero";
+import { ExperienceCard } from "@/components/ExperienceCard";
+import { IsometricHeroCatTree, IsometricHeroWindow } from "@/components/IsometricHeroArt";
 import { MessageForm } from "@/components/MessageForm";
 import { ProjectConsoleHero } from "@/components/ProjectConsoleHero";
 import { ProjectCard } from "@/components/ProjectCard";
 import { SkillIcon } from "@/components/SkillIcon";
-import { TechnologyBadges } from "@/components/TechnologyBadges";
 import { SkillsReveal } from "@/components/SkillsReveal";
 import { portfolio } from "@/data/portfolio";
 
@@ -32,6 +33,7 @@ export function PortfolioPage({ heroVariant = "default" }: { heroVariant?: "defa
   return (
     <div className="container">
       <section className={`home-hero${heroVariant === "default" ? " home-hero-full" : ""}`} id="home" aria-labelledby="home-title">
+        {heroVariant === "default" && <IsometricHeroWindow />}
         <div className="home-hero-copy">
           {heroVariant === "default" && (
             <div className="construction-note">
@@ -67,6 +69,7 @@ export function PortfolioPage({ heroVariant = "default" }: { heroVariant?: "defa
           </div>
           {heroVariant === "cats" && <div className="hero-note"><span className="status-dot" /> Open to opportunities<br /><small>{portfolio.education.degree}</small></div>}
         </div>
+        {heroVariant === "default" && <IsometricHeroCatTree />}
         {heroVariant === "cats" && <CatTreeHero />}
       </section>
 
@@ -81,8 +84,8 @@ export function PortfolioPage({ heroVariant = "default" }: { heroVariant?: "defa
         </div>
         {heroVariant === "default" && <ProjectConsoleHero projects={portfolio.projects} />}
         <div className="project-grid">
-          {portfolio.projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} variant="featured" />
+          {portfolio.projects.map((project, index) => (
+            <ProjectCard key={project.slug} project={project} variant="featured" index={index} />
           ))}
         </div>
         <section className="projects-experience" aria-labelledby="experience-title">
@@ -91,12 +94,8 @@ export function PortfolioPage({ heroVariant = "default" }: { heroVariant?: "defa
             <h3 id="experience-title">Experience</h3>
           </div>
           <div className="timeline">
-            {portfolio.experience.map((item) => (
-              <article className="experience-card" key={`${item.organization}-${item.role}`}>
-                <div className="card-topline"><span className="eyebrow">{item.dates}</span><span className="card-date">{item.location}</span></div>
-                <h2>{item.role}</h2><h3>{item.organization}</h3><p>{item.description}</p>
-                <TechnologyBadges className="tag-list" technologies={item.technologies} />
-              </article>
+            {portfolio.experience.map((item, index) => (
+              <ExperienceCard key={`${item.organization}-${item.role}`} item={item} index={index} />
             ))}
           </div>
         </section>

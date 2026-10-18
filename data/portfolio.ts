@@ -9,6 +9,7 @@ export type Project = {
   githubUrl: string;
   liveUrl: string;
   image: string;
+  images?: { src: string; alt: string }[];
   featured?: boolean;
 };
 
@@ -53,11 +54,16 @@ export const portfolio = {
       kind: "Personal project",
       category: "software",
       dates: "September 2026 – October 2026",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.",
+      description: "A local-first macOS menu bar companion for Codex that tracks wait sessions, captures limited foreground activity, and helps you review productive and distracted time. Includes history and optional AI-powered reflections.",
       technologies: ["Swift", "Python", "Apple Natural Language", "Unix domain sockets"],
-      githubUrl: "",
+      githubUrl: "https://github.com/raldddddddd/inbetween",
       liveUrl: "",
       image: "",
+      images: [
+        { src: "/inbetween-overview.png", alt: "Inbetween overview showing a current Codex wait and weekly activity summary" },
+        { src: "/inbetween-reflection.png", alt: "Inbetween Reflection with a seven-day activity summary and question suggestions" },
+        { src: "/inbetween-reflection-today.png", alt: "Inbetween Reflection filtered to today's activity" },
+      ],
       featured: true,
     },
     {
