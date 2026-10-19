@@ -14,7 +14,13 @@ export function ProjectCard({ project, variant, index = 0 }: { project: Project;
   const content = (
     <>
       {project.images?.length ? (
-        <ProjectImageCarousel images={project.images} projectName={project.name} />
+        <ProjectImageCarousel
+          images={project.images}
+          imagesPerSlide={project.imagesPerSlide}
+          intervalMs={project.imageIntervalMs}
+          projectName={project.name}
+          className={project.slug === "inbetween" ? "project-image-carousel--inbetween" : project.slug === "instaham" ? "project-image-carousel--instaham" : undefined}
+        />
       ) : project.image && (
         <img
           className={`project-image${project.slug === "pop-hop" ? " project-image--pop-hop" : ""}`}

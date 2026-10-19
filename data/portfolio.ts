@@ -10,6 +10,8 @@ export type Project = {
   liveUrl: string;
   image: string;
   images?: { src: string; alt: string }[];
+  imagesPerSlide?: number;
+  imageIntervalMs?: number;
   featured?: boolean;
 };
 
@@ -77,6 +79,19 @@ export const portfolio = {
       githubUrl: "https://github.com/iofrmnowhere/instaham",
       liveUrl: "",
       image: "",
+      images: [
+        { src: "/THE02.png", alt: "InstaHAM home screen with scan overview and recent pig assessments" },
+        { src: "/THE02%20(1).png", alt: "InstaHAM weight capture screen prompting the user to select a measurement reference" },
+        { src: "/THE02%20(2).png", alt: "InstaHAM review screen for confirming a pig photo" },
+        { src: "/THE02%20(3).png", alt: "InstaHAM notice explaining that a photo was not recognized" },
+        { src: "/THE02%20(4).png", alt: "InstaHAM reference verification screen with measurement endpoints marked" },
+        { src: "/THE02%20(5).png", alt: "InstaHAM scan details showing estimated weight and visual health results" },
+        { src: "/THE02%20(6).png", alt: "InstaHAM folders screen summarizing farm scan records" },
+        { src: "/THE02%20(7).png", alt: "InstaHAM analytics screen with weight and health summaries" },
+        { src: "/THE02%20(8).png", alt: "InstaHAM privacy and data settings" },
+      ],
+      imagesPerSlide: 3,
+      imageIntervalMs: 7000,
       featured: true,
     },
     {
