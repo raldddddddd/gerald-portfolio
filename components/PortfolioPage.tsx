@@ -64,7 +64,14 @@ export function PortfolioPage({ heroVariant = "default" }: { heroVariant?: "defa
           <h1 className="hero-title" id="home-title">Hi, I’m <span>{firstName}.</span></h1>
           <p className="hero-copy">{portfolio.homeDescription}</p>
           <div className="button-row">
-            <a className="button button-primary" href="#projects">Explore projects <span aria-hidden="true">↗</span></a>
+            {heroVariant === "default" && (
+              <a className="button button-primary button-with-icon" href="/resume.pdf" target="_blank" rel="noopener noreferrer">
+                <svg className="resume-button-icon" viewBox="0 0 16 18" fill="none" aria-hidden="true" focusable="false">
+                  <path d="M3 1.5h6l4 4v11H3zM9 1.5v4h4M5.5 9h5M5.5 12h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <span>View Resume</span>
+              </a>
+            )}
             <a className="button button-secondary" href="#contact">Get in touch</a>
           </div>
           {heroVariant === "cats" && <div className="hero-note"><span className="status-dot" /> Open to opportunities<br /><small>{portfolio.education.degree}</small></div>}
@@ -102,17 +109,19 @@ export function PortfolioPage({ heroVariant = "default" }: { heroVariant?: "defa
       </section>
 
       <section className="section-block home-about" id="about" aria-labelledby="about-title">
-        <div className="page-intro">
-          <p className="eyebrow">A little about me</p>
-          <h2 id="about-title">About</h2>
-          <p className="intro-copy">{portfolio.intro}</p>
+        <div className="home-about-overview">
+          <div className="page-intro">
+            <p className="eyebrow">A little about me</p>
+            <h2 id="about-title">About</h2>
+            <p className="intro-copy">{portfolio.intro}</p>
+          </div>
+          <section className="content-panel" aria-labelledby="education-heading">
+            <p className="eyebrow">Education</p><h2 id="education-heading">{portfolio.education.school}</h2>
+            <p>{portfolio.education.degree}</p><p className="muted">{portfolio.education.location} · {portfolio.education.dates}</p>
+            <p>{portfolio.education.distinction} · GWA {portfolio.education.gwa}</p>
+            <h3>Relevant coursework</h3><ul className="tag-list">{portfolio.education.coursework.map((course) => <li key={course}>{course}</li>)}</ul>
+          </section>
         </div>
-        <section className="content-panel" aria-labelledby="education-heading">
-          <p className="eyebrow">Education</p><h2 id="education-heading">{portfolio.education.school}</h2>
-          <p>{portfolio.education.degree}</p><p className="muted">{portfolio.education.location} · {portfolio.education.dates}</p>
-          <p>{portfolio.education.distinction} · GWA {portfolio.education.gwa}</p>
-          <h3>Relevant coursework</h3><ul className="tag-list">{portfolio.education.coursework.map((course) => <li key={course}>{course}</li>)}</ul>
-        </section>
 
         <section className="home-skills section-block" aria-labelledby="skills-title">
           <div className="page-intro">

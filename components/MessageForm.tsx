@@ -25,25 +25,19 @@ export function MessageForm() {
       <div className="message-form-fields">
         <label className="form-field">
           <span>Name <i aria-hidden="true">*</i></span>
-          <input autoComplete="name" name="name" required />
+          <input autoComplete="name" name="name" placeholder="Your name" required />
         </label>
         <label className="form-field">
           <span>Email <i aria-hidden="true">*</i></span>
-          <input autoComplete="email" name="email" required type="email" />
+          <input autoComplete="email" name="email" placeholder="you@example.com" required type="email" />
         </label>
         <label className="form-field form-field-subject">
           <span>Subject <i aria-hidden="true">*</i></span>
-          <select defaultValue="" name="subject" required>
-            <option disabled value="">Choose a subject</option>
-            <option>Project inquiry</option>
-            <option>Job opportunity</option>
-            <option>Collaboration</option>
-            <option>Other</option>
-          </select>
+          <input autoComplete="off" name="subject" placeholder="Enter a subject" required />
         </label>
         <label className="form-field form-field-message">
           <span>Message <i aria-hidden="true">*</i></span>
-          <textarea aria-describedby="message-count" maxLength={4000} name="message" onChange={(event) => setMessageLength(event.currentTarget.value.length)} required rows={5} />
+          <textarea aria-describedby="message-count" maxLength={4000} name="message" onChange={(event) => setMessageLength(event.currentTarget.value.length)} placeholder="What would you like to talk about?" required rows={5} />
           <span className="message-counter" id="message-count" aria-live="polite">{messageLength}/4000</span>
         </label>
       </div>

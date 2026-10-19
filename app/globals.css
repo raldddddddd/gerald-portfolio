@@ -95,6 +95,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px soli
 .hero-copy { max-width: 490px; margin: 0; color: var(--body-copy); font-size: 1.05rem; line-height: 1.75; }
 .button-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 29px; }
 .button { display: inline-flex; gap: 19px; align-items: center; border: 1px solid var(--ink); padding: 11px 15px; font-size: .86rem; transition: color .2s ease, background .2s ease, border-color .2s ease, transform .2s ease; }
+.button-with-icon { gap: 9px; }
+.resume-button-icon { display: block; width: 17px; height: 19px; flex: 0 0 auto; }
 .button:hover { transform: translateY(-2px); }
 .button-primary { background: var(--ink); color: var(--paper); }
 .button-primary:hover { background: var(--accent); border-color: var(--accent); }
@@ -416,28 +418,30 @@ a.contact-detail-value:hover { color: var(--accent); }
 .form-privacy-note { margin: 0; color: var(--muted); font-size: .8rem; }
 .message-submit { display: flex; min-height: 50px; justify-content: center; align-items: center; gap: 12px; margin-top: 2px; border: 1px solid var(--accent); border-radius: 8px; background: var(--accent); color: white; font: inherit; font-size: .91rem; cursor: pointer; transition: background-color .2s ease, transform .2s ease; }
 .message-submit:hover { transform: translateY(-1px); background: var(--accent-bright); }
-.home-hero, #projects, #about, #contact { scroll-margin-top: 104px; }
+.home-hero, #projects, #about, #contact { scroll-margin-top: var(--site-header-height); }
 .projects-experience { margin-top: 64px; }
 .projects-experience > .page-intro { margin-bottom: 20px; }
 .projects-experience > .page-intro h3 { margin: 12px 0 10px; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.05; letter-spacing: -.065em; font-weight: 600; }
 .about-certifications { margin-top: 56px; }
 .about-certifications .page-intro { margin-bottom: 12px; }
 .about-certifications .tag-list { margin-top: 0; padding-top: 0; }
-.home-contact { width: min(100%, 900px); margin-inline: auto; border-top: 1px solid var(--line); }
-.home-contact.section-block { padding-top: 40px; padding-bottom: 42px; }
+.home-about { border-top: 1px solid var(--line); }
+.home-about-overview { min-height: max(0px, calc(50vh - var(--site-header-height))); min-height: max(0px, calc(50svh - var(--site-header-height))); }
+.home-contact { width: 100%; border-top: 1px solid var(--line); }
+.home-contact.section-block { padding-top: 40px; padding-bottom: 24px; }
 .home-contact .page-intro { margin-bottom: 18px; }
-.home-contact .contact-layout { gap: clamp(24px, 4vw, 48px); }
+.home-contact .contact-layout { width: min(100%, 900px); margin-inline: auto; gap: clamp(20px, 3vw, 36px); }
 .home-contact .contact-card h3 { font-size: 1.22rem; }
-.home-contact .contact-card > p { margin-bottom: 12px; }
-.home-contact .contact-details { gap: 16px; }
+.home-contact .contact-card > p { margin-bottom: 8px; }
+.home-contact .contact-details { gap: 12px; }
 .home-contact .contact-detail-group { gap: 5px; }
-.home-contact .message-form { gap: 8px; }
-.home-contact .message-form-fields { gap: 9px 14px; }
+.home-contact .message-form { gap: 6px; }
+.home-contact .message-form-fields { gap: 7px 12px; }
 .home-contact .form-field { gap: 4px; }
 .home-contact .form-field input, .home-contact .form-field textarea, .home-contact .form-field select { padding: 8px 11px; }
-.home-contact .form-field textarea { min-height: 96px; }
+.home-contact .form-field textarea { height: 84px; min-height: 84px; }
 .home-contact .form-field select { min-height: 40px; padding-right: 36px; }
-.home-contact .message-submit { min-height: 44px; }
+.home-contact .message-submit { min-height: 42px; }
 
 @media (max-width: 800px) {
   .home-hero { min-height: auto; grid-template-columns: minmax(0, 1fr) minmax(240px, .8fr); gap: 8px; padding: 66px 0 64px; }
@@ -509,14 +513,13 @@ a.contact-detail-value:hover { color: var(--accent); }
   .site-footer { padding: 24px 18px 30px; gap: 12px 18px; }
   .footer-socials { order: 3; flex-basis: 100%; }
   .home-contact { width: 100%; }
-  .home-contact.section-block { padding-top: 32px; padding-bottom: 34px; }
+  .home-contact.section-block { padding-top: 32px; padding-bottom: 24px; }
   .home-contact .contact-layout { grid-template-columns: minmax(0, 1fr); gap: 22px; }
   .contact-card { padding: 0; }
   .home-contact .message-form-fields { grid-template-columns: minmax(0, 1fr); gap: 10px; }
   .home-contact .form-field-subject { grid-column: auto; }
   .home-contact .form-field-message { grid-column: auto; }
   .home-contact .contact-details { gap: 18px; }
-  .home-hero, #projects, #about, #contact { scroll-margin-top: 132px; }
   .page-intro h1 { font-size: clamp(2.6rem, 12vw, 3.6rem); }
   .home-skills-desktop { display: none; }
   .home-skills-mobile { display: block; }
