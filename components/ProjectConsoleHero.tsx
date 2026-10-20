@@ -1,23 +1,50 @@
 "use client";
 
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { Project } from "@/data/portfolio";
 import { TechnologyBadges } from "@/components/TechnologyBadges";
 
+function getProjectPreview(project: Project) {
+  if (project.slug === "stray-on-track") {
+    return { src: "/stray-on-track-project-hero.png", alt: "Stray On Track displayed on two overlapping phone mockups" };
+  }
+
+  return project.images?.[0] ?? (project.image ? {
+    src: project.image,
+    alt: project.slug === "kalinga" ? "Two Kalinga phone screens showing caregiver onboarding and family account creation" : `${project.name} preview`,
+  } : null);
+}
+
+function getProjectPreviewDimensions(project: Project) {
+  return project.slug === "kalinga" ? { width: 940, height: 920 } : { width: 1200, height: 900 };
+}
+
 export function ProjectConsoleHero({ projects }: { projects: Project[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [loadedPreviewSrc, setLoadedPreviewSrc] = useState<string | null>(null);
+  const [failedPreviewSrc, setFailedPreviewSrc] = useState<string | null>(null);
+  const preloadedPreviewSrcs = useRef(new Set<string>());
   const activeProject = projects[activeIndex];
-  const previewImage = activeProject?.slug === "stray-on-track"
-    ? { src: "/stray-on-track-project-hero.png", alt: "Stray On Track displayed on two overlapping phone mockups" }
-    : activeProject?.images?.[0] ?? (activeProject?.image ? {
-      src: activeProject.image,
-      alt: activeProject.slug === "kalinga" ? "Two Kalinga phone screens showing caregiver onboarding and family account creation" : `${activeProject.name} preview`,
-    } : null);
+  const previewImage = activeProject ? getProjectPreview(activeProject) : null;
   const isMobilePreview = activeProject?.slug === "instaham";
   const isDeviceCollage = activeProject?.slug === "stray-on-track";
   const isWidePreview = activeProject?.slug === "pop-hop";
+  const previewDimensions = activeProject ? getProjectPreviewDimensions(activeProject) : null;
+
+  const preloadProjectPreview = (project: Project) => {
+    const preview = getProjectPreview(project);
+    if (!preview || preloadedPreviewSrcs.current.has(preview.src)) return;
+
+    preloadedPreviewSrcs.current.add(preview.src);
+    const { width, height } = getProjectPreviewDimensions(project);
+    const { props } = getImageProps({ src: preview.src, alt: "", width, height });
+    const preloadImage = new window.Image();
+    if (props.srcSet) preloadImage.srcset = props.srcSet;
+    if (props.sizes) preloadImage.sizes = props.sizes;
+    preloadImage.src = props.src;
+  };
 
   if (!activeProject) return null;
 
@@ -38,6 +65,9 @@ export function ProjectConsoleHero({ projects }: { projects: Project[] }) {
                 className={index === activeIndex ? "console-project-tab is-active" : "console-project-tab"}
                 key={project.slug}
                 onClick={() => setActiveIndex(index)}
+                onFocus={() => preloadProjectPreview(project)}
+                onMouseEnter={() => preloadProjectPreview(project)}
+                onPointerDown={() => preloadProjectPreview(project)}
                 type="button"
               >
                 <span className="console-tab-index">0{index + 1}</span>
@@ -48,10 +78,30 @@ export function ProjectConsoleHero({ projects }: { projects: Project[] }) {
 
           <div className="project-console-screen" aria-live="polite" aria-atomic="true">
             <div className={`console-preview-frame${isMobilePreview ? " console-preview-frame--mobile" : ""}${isWidePreview ? " console-preview-frame--wide" : ""}`}>
-              {previewImage ? (
-                <Image className={`console-preview-image${isMobilePreview ? " console-preview-image--mobile" : ""}${isDeviceCollage ? " console-preview-image--collage" : ""}${isWidePreview ? " console-preview-image--wide" : ""}`} src={previewImage.src} alt={previewImage.alt} width={activeProject.slug === "kalinga" ? 940 : 1200} height={activeProject.slug === "kalinga" ? 920 : 900} />
+              {previewImage && previewDimensions ? (
+                <>
+                  {loadedPreviewSrc !== previewImage.src && (
+                    <div className="console-preview-placeholder" role="status">
+                      {failedPreviewSrc === previewImage.src ? `${activeProject.name} preview unavailable` : `Loading ${activeProject.name} preview`}
+                    </div>
+                  )}
+                  <Image
+                    className={`console-preview-image${loadedPreviewSrc === previewImage.src ? " is-loaded" : " is-loading"}${isMobilePreview ? " console-preview-image--mobile" : ""}${isDeviceCollage ? " console-preview-image--collage" : ""}${isWidePreview ? " console-preview-image--wide" : ""}`}
+                    key={previewImage.src}
+                    src={previewImage.src}
+                    alt={previewImage.alt}
+                    width={previewDimensions.width}
+                    height={previewDimensions.height}
+                    loading="eager"
+                    onLoad={() => {
+                      setLoadedPreviewSrc(previewImage.src);
+                      setFailedPreviewSrc(null);
+                    }}
+                    onError={() => setFailedPreviewSrc(previewImage.src)}
+                  />
+                </>
               ) : (
-                <div className="console-preview-placeholder" aria-hidden="true">{activeProject.name}</div>
+                <div className="console-preview-placeholder" role="status">{activeProject.name} preview unavailable</div>
               )}
             </div>
             <div className="console-project-details">
