@@ -7,17 +7,17 @@ import { TechnologyBadges } from "@/components/TechnologyBadges";
 export function ProjectConsoleHero({ projects }: { projects: Project[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const activeProject = projects[activeIndex];
+  const previewImage = activeProject?.slug === "stray-on-track"
+    ? { src: "/stray-on-track-project-hero.png", alt: "Stray On Track displayed on two overlapping phone mockups" }
+    : activeProject?.images?.[0] ?? (activeProject?.image ? { src: activeProject.image, alt: `${activeProject.name} preview` } : null);
+  const isMobilePreview = activeProject?.slug === "instaham";
+  const isDeviceCollage = activeProject?.slug === "stray-on-track";
+  const isWidePreview = activeProject?.slug === "pop-hop";
 
   if (!activeProject) return null;
 
   return (
     <div className="project-console-stage">
-      <aside className="project-console-callout project-console-callout--left" aria-live="polite">
-        <span className="console-callout-label">CURRENT FOCUS</span>
-        <strong>{String(activeIndex + 1).padStart(2, "0")} <i>/</i> {String(projects.length).padStart(2, "0")}</strong>
-        <span className="console-callout-detail">{activeProject.kind}</span>
-      </aside>
-
       <div className="project-console-wrap">
         <section className="project-console" aria-label="Interactive project console">
           <div className="project-console-topbar">
@@ -26,7 +26,7 @@ export function ProjectConsoleHero({ projects }: { projects: Project[] }) {
             <span className="console-live"><i aria-hidden="true" /> PROJECT INDEX</span>
           </div>
 
-          <div className="project-console-tabs" role="group" aria-label="Choose a featured project">
+          <div className="project-console-tabs" role="group" aria-label="Choose a project">
             {projects.map((project, index) => (
               <button
                 aria-pressed={index === activeIndex}
@@ -42,17 +42,30 @@ export function ProjectConsoleHero({ projects }: { projects: Project[] }) {
           </div>
 
           <div className="project-console-screen" aria-live="polite" aria-atomic="true">
-            <div className="console-screen-heading" key={activeProject.slug}>
-              <div>
-                <p className="console-project-kind"><span>SELECTED PROJECT</span><span>{activeProject.dates}</span></p>
-                <h2>{activeProject.name}<span className="console-title-period">.</span></h2>
-                <p className="console-project-category">{activeProject.kind}</p>
-              </div>
-              <span className="console-project-mark" aria-hidden="true">{String(activeIndex + 1).padStart(2, "0")}</span>
+            <div className={`console-preview-frame${isMobilePreview ? " console-preview-frame--mobile" : ""}${isWidePreview ? " console-preview-frame--wide" : ""}`}>
+              {previewImage ? (
+                <img className={`console-preview-image${isMobilePreview ? " console-preview-image--mobile" : ""}${isDeviceCollage ? " console-preview-image--collage" : ""}${isWidePreview ? " console-preview-image--wide" : ""}`} src={previewImage.src} alt={previewImage.alt} />
+              ) : (
+                <div className="console-preview-placeholder" aria-hidden="true">{activeProject.name}</div>
+              )}
             </div>
-            <div className="console-screen-bottom">
-              <span className="console-tech-label">BUILT WITH</span>
-              <TechnologyBadges className="console-tech-list" technologies={activeProject.technologies.slice(0, 4)} />
+            <div className="console-project-details">
+              <div className="console-screen-heading" key={activeProject.slug}>
+                <div>
+                  <p className="console-project-kind"><span>SELECTED PROJECT</span><span>{activeProject.dates}</span></p>
+                  <h2>{activeProject.name}<span className="console-title-period">.</span></h2>
+                  <p className="console-project-category">{activeProject.kind}</p>
+                </div>
+                <span className="console-project-mark" aria-hidden="true">{String(activeIndex + 1).padStart(2, "0")}</span>
+              </div>
+              <p className="console-project-description">{activeProject.description}</p>
+              <div className="console-screen-bottom">
+                <span className="console-tech-label">BUILT WITH</span>
+                <TechnologyBadges className="console-tech-list" technologies={activeProject.technologies.slice(0, 4)} />
+              </div>
+              <a className="console-project-details-link" href={`/projects#project-${activeProject.slug}`} aria-label={`View ${activeProject.name} project details`}>
+                View project details <span aria-hidden="true">→</span>
+              </a>
             </div>
           </div>
           <div className="console-base" aria-hidden="true"><span /></div>
@@ -60,10 +73,6 @@ export function ProjectConsoleHero({ projects }: { projects: Project[] }) {
         <p className="console-caption"><span>01 — 0{projects.length}</span> A few things I’ve been building</p>
       </div>
 
-      <aside className="project-console-callout project-console-callout--right" aria-live="polite">
-        <span className="console-callout-label">MADE WITH</span>
-        <TechnologyBadges className="console-callout-tech-list" technologies={activeProject.technologies.slice(0, 3)} />
-      </aside>
     </div>
   );
 }

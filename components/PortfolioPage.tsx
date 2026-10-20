@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ContactDetails } from "@/components/ContactDetails";
+import { ContactSleepingCat } from "@/components/ContactSleepingCat";
 import { CatTreeHero } from "@/components/CatTreeHero";
 import { ExperienceCard } from "@/components/ExperienceCard";
 import { EmailActions } from "@/components/EmailActions";
@@ -27,15 +28,15 @@ function SkillGrid({ skills }: { skills: string[] }) {
 
 export function PortfolioPage({ heroVariant = "default" }: { heroVariant?: "default" | "cats" }) {
   const firstName = portfolio.name.split(" ")[0];
-  const featuredProjects = portfolio.projects.filter((project) => ["inbetween", "instaham"].includes(project.slug));
+  const projects = portfolio.projects;
   const skills = Object.values(portfolio.skills).flat();
 
   return (
-    <div className="container">
+    <div className={`container${heroVariant === "default" ? " portfolio-home" : ""}`}>
       <section className={`home-hero${heroVariant === "default" ? " home-hero-full" : ""}`} id="home" aria-labelledby="home-title">
         {heroVariant === "default" && <IsometricHeroWindow />}
         <div className="home-hero-copy">
-          <p className="eyebrow">{heroVariant === "default" ? "Software Development · Full-Stack Engineering & AI/ML" : portfolio.headline}</p>
+          <p className="eyebrow">{heroVariant === "default" ? "Software Development · Full-Stack · AI/ML" : portfolio.headline}</p>
           <h1 className="hero-title" id="home-title">Hi, I’m <span>{firstName}.</span></h1>
           <p className="hero-copy">{portfolio.homeDescription}</p>
           <div className="button-row">
@@ -49,10 +50,24 @@ export function PortfolioPage({ heroVariant = "default" }: { heroVariant?: "defa
             )}
             <a className="button button-secondary" href="#contact">Get in touch</a>
           </div>
+          {heroVariant === "default" && (
+            <div className="hero-note hero-note--home">
+              <span className="status-dot" />
+              <span>Open to opportunities</span>
+              <span className="hero-note-divider" aria-hidden="true">·</span>
+              <span>B.S. Computer Science · Data Science</span>
+            </div>
+          )}
           {heroVariant === "cats" && <div className="hero-note"><span className="status-dot" /> Open to opportunities<br /><small>{portfolio.education.degree}</small></div>}
         </div>
         {heroVariant === "default" && <IsometricHeroCatTree />}
         {heroVariant === "cats" && <CatTreeHero />}
+        {heroVariant === "default" && (
+          <a className="hero-scroll-cue" href="#experience">
+            <span>Scroll to explore</span>
+            <span aria-hidden="true">↓</span>
+          </a>
+        )}
       </section>
 
       <section className="section-block home-about" id="about" aria-labelledby="about-title">
@@ -71,7 +86,7 @@ export function PortfolioPage({ heroVariant = "default" }: { heroVariant?: "defa
         </div>
       </section>
 
-      <section className="section-block experience-section" aria-labelledby="experience-title">
+      <section className="section-block experience-section" id="experience" aria-labelledby="experience-title">
         <div className="page-intro">
           <p className="eyebrow">Work history</p>
           <h2 id="experience-title">Experience</h2>
@@ -109,14 +124,16 @@ export function PortfolioPage({ heroVariant = "default" }: { heroVariant?: "defa
             <h2 id="projects-title">Projects</h2>
             <p className="intro-copy">Software, AI, data, and design projects.</p>
           </div>
-          <span className="work-count">{String(featuredProjects.length).padStart(2, "0")} featured</span>
+          <span className="work-count">{String(projects.length).padStart(2, "0")} projects</span>
         </div>
-        {heroVariant === "default" && <ProjectConsoleHero projects={featuredProjects} />}
-        <div className="project-grid">
-          {featuredProjects.map((project, index) => (
-            <ProjectCard key={project.slug} project={project} variant="featured" index={index} />
-          ))}
-        </div>
+        {heroVariant === "default" && <ProjectConsoleHero projects={projects} />}
+        {heroVariant === "cats" && (
+          <div className="project-grid">
+            {projects.filter((project) => project.featured).map((project, index) => (
+              <ProjectCard key={project.slug} project={project} variant="featured" index={index} />
+            ))}
+          </div>
+        )}
         <div className="all-projects-link-wrap">
           <a className="button button-secondary" href="/projects">View all projects <span aria-hidden="true">↗</span></a>
         </div>
@@ -154,6 +171,7 @@ export function PortfolioPage({ heroVariant = "default" }: { heroVariant?: "defa
             <ContactDetails />
           </section>
         </div>
+        <ContactSleepingCat />
       </section>
     </div>
   );

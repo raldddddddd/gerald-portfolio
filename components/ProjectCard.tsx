@@ -50,7 +50,7 @@ export function ProjectCard({ project, variant, index = 0 }: { project: Project;
   );
 
   return (
-    <article className={`${className} ${reveal.className}`} ref={reveal.ref} style={reveal.style}>
+    <article id={`project-${project.slug}`} tabIndex={-1} className={`${className} ${reveal.className}`} ref={reveal.ref} style={reveal.style}>
       {content}
     </article>
   );
