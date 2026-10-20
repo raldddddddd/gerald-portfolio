@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import type { Project } from "@/data/portfolio";
 import { TechnologyBadges } from "@/components/TechnologyBadges";
@@ -9,7 +11,10 @@ export function ProjectConsoleHero({ projects }: { projects: Project[] }) {
   const activeProject = projects[activeIndex];
   const previewImage = activeProject?.slug === "stray-on-track"
     ? { src: "/stray-on-track-project-hero.png", alt: "Stray On Track displayed on two overlapping phone mockups" }
-    : activeProject?.images?.[0] ?? (activeProject?.image ? { src: activeProject.image, alt: `${activeProject.name} preview` } : null);
+    : activeProject?.images?.[0] ?? (activeProject?.image ? {
+      src: activeProject.image,
+      alt: activeProject.slug === "kalinga" ? "Two Kalinga phone screens showing caregiver onboarding and family account creation" : `${activeProject.name} preview`,
+    } : null);
   const isMobilePreview = activeProject?.slug === "instaham";
   const isDeviceCollage = activeProject?.slug === "stray-on-track";
   const isWidePreview = activeProject?.slug === "pop-hop";
@@ -44,7 +49,7 @@ export function ProjectConsoleHero({ projects }: { projects: Project[] }) {
           <div className="project-console-screen" aria-live="polite" aria-atomic="true">
             <div className={`console-preview-frame${isMobilePreview ? " console-preview-frame--mobile" : ""}${isWidePreview ? " console-preview-frame--wide" : ""}`}>
               {previewImage ? (
-                <img className={`console-preview-image${isMobilePreview ? " console-preview-image--mobile" : ""}${isDeviceCollage ? " console-preview-image--collage" : ""}${isWidePreview ? " console-preview-image--wide" : ""}`} src={previewImage.src} alt={previewImage.alt} />
+                <Image className={`console-preview-image${isMobilePreview ? " console-preview-image--mobile" : ""}${isDeviceCollage ? " console-preview-image--collage" : ""}${isWidePreview ? " console-preview-image--wide" : ""}`} src={previewImage.src} alt={previewImage.alt} width={activeProject.slug === "kalinga" ? 940 : 1200} height={activeProject.slug === "kalinga" ? 920 : 900} />
               ) : (
                 <div className="console-preview-placeholder" aria-hidden="true">{activeProject.name}</div>
               )}
@@ -63,9 +68,9 @@ export function ProjectConsoleHero({ projects }: { projects: Project[] }) {
                 <span className="console-tech-label">BUILT WITH</span>
                 <TechnologyBadges className="console-tech-list" technologies={activeProject.technologies.slice(0, 4)} />
               </div>
-              <a className="console-project-details-link" href={`/projects#project-${activeProject.slug}`} aria-label={`View ${activeProject.name} project details`}>
+              <Link className="console-project-details-link" href={`/projects#project-${activeProject.slug}`} aria-label={`View ${activeProject.name} project details`}>
                 View project details <span aria-hidden="true">→</span>
-              </a>
+              </Link>
             </div>
           </div>
           <div className="console-base" aria-hidden="true"><span /></div>

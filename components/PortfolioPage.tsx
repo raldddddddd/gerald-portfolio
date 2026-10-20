@@ -77,10 +77,58 @@ export function PortfolioPage({ heroVariant = "default" }: { heroVariant?: "defa
           <p className="eyebrow">A little about me</p>
           <h2 id="about-title">About</h2>
         </div>
-        <div className="home-about-content">
-          <p className="home-about-lead">
-            I’m a Computer Science student majoring in Data Science at Angeles University Foundation. I build practical tools across web, macOS, and mobile, with recent work in AI and product design.
-          </p>
+        <div className="home-about-layout">
+          <Image
+            className="home-about-portrait"
+            src="/about-portrait.png"
+            alt="Portrait of Gerald Santiago"
+            width={1047}
+            height={1104}
+          />
+          <div className="home-about-content">
+            <p className="home-about-lead">
+              I&apos;m a Computer Science student majoring in Data Science at Angeles University Foundation.
+            </p>
+            <p className="home-about-copy">
+              One of the things I enjoy most is product ideation: identifying problems, exploring possibilities, and figuring out how ideas can become useful products. My interests span software development, AI, and product design.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-block home-skills" id="skills" aria-labelledby="skills-title">
+        <div className="home-skills-inner">
+          <div className="page-intro">
+            <p className="eyebrow">My toolkit</p>
+            <h2 id="skills-title">Skills & technologies</h2>
+            <p className="intro-copy">Languages, data science libraries, frameworks, and tools I use to bring ideas to life.</p>
+          </div>
+        </div>
+        <div className="skill-marquee" aria-label="Technology stack">
+          <SkillMarqueeRow skills={skills.slice(0, skillMidpoint)} />
+          <SkillMarqueeRow reverse skills={skills.slice(skillMidpoint)} />
+        </div>
+      </section>
+
+      <section className="section-block" id="projects" aria-labelledby="projects-title">
+        <div className="home-work-intro">
+          <div className="page-intro">
+            <p className="eyebrow">Selected work</p>
+            <h2 id="projects-title">Projects</h2>
+            <p className="intro-copy">Software, AI, data, and design projects.</p>
+          </div>
+          <span className="work-count">{String(projects.length).padStart(2, "0")} projects</span>
+        </div>
+        {heroVariant === "default" && <ProjectConsoleHero projects={projects} />}
+        {heroVariant === "cats" && (
+          <div className="project-grid">
+            {projects.filter((project) => project.featured).map((project, index) => (
+              <ProjectCard key={project.slug} project={project} variant="featured" index={index} />
+            ))}
+          </div>
+        )}
+        <div className="all-projects-link-wrap">
+          <a className="button button-secondary" href="/projects">View all projects <span aria-hidden="true">↗</span></a>
         </div>
       </section>
 
@@ -118,42 +166,6 @@ export function PortfolioPage({ heroVariant = "default" }: { heroVariant?: "defa
               ))}
             </ul>
           </aside>
-        </div>
-      </section>
-
-      <section className="section-block home-skills" id="skills" aria-labelledby="skills-title">
-        <div className="home-skills-inner">
-          <div className="page-intro">
-            <p className="eyebrow">My toolkit</p>
-            <h2 id="skills-title">Skills & technologies</h2>
-            <p className="intro-copy">Languages, data science libraries, frameworks, and tools I use to bring ideas to life.</p>
-          </div>
-        </div>
-        <div className="skill-marquee" aria-label="Technology stack">
-          <SkillMarqueeRow skills={skills.slice(0, skillMidpoint)} />
-          <SkillMarqueeRow reverse skills={skills.slice(skillMidpoint)} />
-        </div>
-      </section>
-
-      <section className="section-block" id="projects" aria-labelledby="projects-title">
-        <div className="home-work-intro">
-          <div className="page-intro">
-            <p className="eyebrow">Selected work</p>
-            <h2 id="projects-title">Projects</h2>
-            <p className="intro-copy">Software, AI, data, and design projects.</p>
-          </div>
-          <span className="work-count">{String(projects.length).padStart(2, "0")} projects</span>
-        </div>
-        {heroVariant === "default" && <ProjectConsoleHero projects={projects} />}
-        {heroVariant === "cats" && (
-          <div className="project-grid">
-            {projects.filter((project) => project.featured).map((project, index) => (
-              <ProjectCard key={project.slug} project={project} variant="featured" index={index} />
-            ))}
-          </div>
-        )}
-        <div className="all-projects-link-wrap">
-          <a className="button button-secondary" href="/projects">View all projects <span aria-hidden="true">↗</span></a>
         </div>
       </section>
 

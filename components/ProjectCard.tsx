@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import type { Project } from "@/data/portfolio";
 import { TechnologyBadges } from "@/components/TechnologyBadges";
 import { ProjectImageCarousel } from "@/components/ProjectImageCarousel";
@@ -22,10 +23,12 @@ export function ProjectCard({ project, variant, index = 0 }: { project: Project;
           className={project.slug === "inbetween" ? "project-image-carousel--inbetween" : project.slug === "instaham" ? "project-image-carousel--instaham" : project.slug === "stray-on-track" ? "project-image-carousel--stray-on-track" : undefined}
         />
       ) : project.image && (
-        <img
-          className={`project-image${project.slug === "pop-hop" ? " project-image--pop-hop" : ""}`}
+        <Image
+          className={`project-image${project.slug === "pop-hop" ? " project-image--pop-hop" : project.slug === "kalinga" ? " project-image--kalinga" : ""}`}
           src={project.image}
-          alt={`${project.name} preview`}
+          alt={project.slug === "kalinga" ? "Two Kalinga phone screens showing caregiver onboarding and family account creation" : `${project.name} preview`}
+          width={project.slug === "kalinga" ? 940 : 1200}
+          height={project.slug === "kalinga" ? 920 : 675}
         />
       )}
       <div className="card-topline">

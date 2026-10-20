@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 type ProjectImage = { src: string; alt: string };
@@ -66,7 +67,7 @@ export function ProjectImageCarousel({
     >
       <div className="project-image-slide">
         {activeSlide.map((image) => (
-          <img key={image.src} className="project-image" src={image.src} alt={image.alt} />
+          <Image key={image.src} className="project-image" src={image.src} alt={image.alt} width={1200} height={900} />
         ))}
       </div>
       {isMobile && slides.length > 1 && (

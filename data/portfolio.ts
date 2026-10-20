@@ -22,7 +22,7 @@ export const portfolio = {
   headline: "Software Development · AI & Data Science",
   intro: "Computer Science student majoring in Data Science at Angeles University Foundation.",
   homeDescription:
-    "I build software across web, macOS, and mobile, with interests in practical AI and data-driven problem solving.",
+    "I enjoy turning product ideas into working software across web, macOS, and mobile, with a focus on practical AI and data-driven solutions.",
   education: {
     school: "Angeles University Foundation",
     location: "Angeles City, Pampanga",
@@ -53,7 +53,7 @@ export const portfolio = {
       kind: "Personal project",
       category: "software",
       dates: "Sep 2026 – Oct 2026",
-      description: "A local-first macOS menu bar companion for Codex that tracks wait sessions and activity, with history and productivity insights. It uses Apple Natural Language and sentence embeddings for local activity classification, and connects Python lifecycle hooks to Swift over Unix domain sockets.",
+      description: "A local-first macOS menu bar companion that tracks user activity while Codex is running, with history and productivity insights. It uses Apple Natural Language and sentence embeddings for local activity classification, and connects Python lifecycle hooks to Swift over Unix domain sockets.",
       technologies: ["Swift", "Python", "Apple Natural Language", "Unix domain sockets"],
       githubUrl: "https://github.com/raldddddddd/inbetween",
       liveUrl: "",
@@ -129,6 +129,18 @@ export const portfolio = {
       ],
       imagesPerSlide: 3,
       imageIntervalMs: 7000,
+    },
+    {
+      slug: "kalinga",
+      name: "Kalinga",
+      kind: "Presidential Hackathon · International Track",
+      category: "software",
+      dates: "JUL 2026",
+      description: "Helped ideate Kalinga, an AI-powered eldercare companion connecting migrant caregivers, Taiwanese families, and helplines through daily care logs and medical guidance. Focused on the database layer, designing its NoSQL data model with Cloud Firestore.",
+      technologies: ["Flutter", "Dart", "Firebase", "Cloud Firestore"],
+      githubUrl: "https://github.com/dncnl/kalinga",
+      liveUrl: "",
+      image: "/kalinga-project-phones.png",
     },
   ] satisfies Project[],
   experience: [

@@ -1,24 +1,85 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const STRETCH_DURATION_MS = 900;
+const WAKE_TRIGGER_SELECTOR = ".home-contact .direct-contact-address, .home-contact .email-action-link, .contact-buttons--footer .contact-icon-button";
+
+type CatState = "sleeping" | "stretching" | "awake";
+type EngagementType = "pointer" | "focus";
 
 export function ContactSleepingCat() {
-  const [isStretching, setIsStretching] = useState(false);
+  const [catState, setCatState] = useState<CatState>("sleeping");
   const [reactionKey, setReactionKey] = useState(0);
+  const engagement = useRef<Record<EngagementType, boolean>>({ pointer: false, focus: false });
+  const isEngaged = useRef(false);
   const stretchTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const wakeCat = useCallback(() => {
+    if (stretchTimeout.current) clearTimeout(stretchTimeout.current);
+    setReactionKey((key) => key + 1);
+    setCatState("stretching");
+    stretchTimeout.current = setTimeout(() => {
+      setCatState(isEngaged.current ? "awake" : "sleeping");
+    }, STRETCH_DURATION_MS);
+  }, []);
+
+  useEffect(() => {
+    const findWakeTrigger = (target: EventTarget | null) => (
+      target instanceof Element ? target.closest(WAKE_TRIGGER_SELECTOR) : null
+    );
+    const updateEngagement = (type: EngagementType, active: boolean) => {
+      engagement.current[type] = active;
+      const nextEngaged = engagement.current.pointer || engagement.current.focus;
+      if (nextEngaged === isEngaged.current) return;
+
+      isEngaged.current = nextEngaged;
+      if (nextEngaged) {
+        wakeCat();
+      } else {
+        setCatState((current) => current === "stretching" ? current : "sleeping");
+      }
+    };
+
+    const handlePointerOver = (event: PointerEvent) => {
+      const trigger = findWakeTrigger(event.target);
+      if (trigger && trigger !== findWakeTrigger(event.relatedTarget)) updateEngagement("pointer", true);
+    };
+    const handlePointerOut = (event: PointerEvent) => {
+      const trigger = findWakeTrigger(event.target);
+      if (trigger && !findWakeTrigger(event.relatedTarget)) {
+        updateEngagement("pointer", false);
+      }
+    };
+    const handleFocusIn = (event: FocusEvent) => {
+      const trigger = findWakeTrigger(event.target);
+      if (trigger && trigger !== findWakeTrigger(event.relatedTarget)) updateEngagement("focus", true);
+    };
+    const handleFocusOut = (event: FocusEvent) => {
+      const trigger = findWakeTrigger(event.target);
+      if (trigger && !findWakeTrigger(event.relatedTarget)) {
+        updateEngagement("focus", false);
+      }
+    };
+
+    document.addEventListener("pointerover", handlePointerOver);
+    document.addEventListener("pointerout", handlePointerOut);
+    document.addEventListener("focusin", handleFocusIn);
+    document.addEventListener("focusout", handleFocusOut);
+    return () => {
+      document.removeEventListener("pointerover", handlePointerOver);
+      document.removeEventListener("pointerout", handlePointerOut);
+      document.removeEventListener("focusin", handleFocusIn);
+      document.removeEventListener("focusout", handleFocusOut);
+    };
+  }, [wakeCat]);
 
   useEffect(() => () => {
     if (stretchTimeout.current) clearTimeout(stretchTimeout.current);
   }, []);
 
-  const wakeCat = () => {
-    if (stretchTimeout.current) clearTimeout(stretchTimeout.current);
-    setReactionKey((key) => key + 1);
-    setIsStretching(true);
-    stretchTimeout.current = setTimeout(() => setIsStretching(false), STRETCH_DURATION_MS);
-  };
+  const isAwake = catState !== "sleeping";
+  const isStretching = catState === "stretching";
 
   return (
     <button
@@ -29,7 +90,7 @@ export function ContactSleepingCat() {
     >
       <svg className="contact-sleeping-cat" viewBox="0 0 160 92" aria-hidden="true" focusable="false">
         <ellipse className="contact-sleeping-cat-shadow" cx="80" cy="84" rx="65" ry="4" />
-        <g key={reactionKey} className={`contact-sleeping-cat-figure${isStretching ? " is-stretching" : ""}`}>
+        <g key={reactionKey} className={`contact-sleeping-cat-figure${isAwake ? " is-awake" : ""}${isStretching ? " is-stretching" : ""}`}>
           <path
             className="contact-sleeping-cat-body"
             d="M32 67c-7-11-4-26 7-34 10-8 22-10 34-5 11-12 27-17 43-12 17 5 27 18 27 34 0 17-12 29-30 29H61c-14 0-24-4-29-12Z"
@@ -51,6 +112,7 @@ export function ContactSleepingCat() {
           <path className="contact-sleeping-cat-face" d="m54 60 4 3 4-3m-4 3v3" />
           <path className="contact-sleeping-cat-fur" d="M96 32q8-5 16-3m-9 9q8-4 15-2M36 66q7 3 13 1" />
           <path className="contact-sleeping-cat-paw" d="M82 72q5-4 11-2m4 2q5-3 10-1" />
+          <path className="contact-sleeping-cat-purr" d="M91 19q7-7 0-14m10 18q8-8 0-16" />
         </g>
       </svg>
     </button>

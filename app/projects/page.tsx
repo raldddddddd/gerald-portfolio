@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ProjectCard } from "@/components/ProjectCard";
 import { portfolio } from "@/data/portfolio";
 
@@ -22,7 +23,7 @@ export default function ProjectsPage() {
             <ProjectCard key={project.slug} project={project} variant="featured" index={index} />
           ))}
         </div>
-        <a className="all-projects-home-link" href="/#projects">← Back to selected projects</a>
+        <Link className="all-projects-home-link" href="/#projects">← Back to selected projects</Link>
       </section>
     </div>
   );

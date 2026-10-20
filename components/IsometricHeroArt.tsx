@@ -50,7 +50,7 @@ const WIN = {
 };
 
 export function IsometricHeroWindow() {
-  const { L, H, D, border: b, mullion: m, recess: r, sillOut, sillOver, sillT } = WIN;
+  const { L, H, D, border: b, recess: r, sillOut, sillOver, sillT } = WIN;
   const p = makeProject(328, 110);
 
   const frame = boxFaces(p, [0, 0, 0], [D, L, H]);
@@ -154,7 +154,6 @@ export function IsometricHeroWindow() {
 const TREE_SCALE = 1.1;
 
 const SLAB_T = 8;
-const SHARED_DARK_EDGE = 56;
 const LOWER_PLATFORM_LENGTH = 112.5;
 const PLATFORM_LIGHT_SIDE_LENGTH = LOWER_PLATFORM_LENGTH * 2.5 * 1.3;
 const PLATFORM_X_START = (LOWER_PLATFORM_LENGTH - PLATFORM_LIGHT_SIDE_LENGTH) / 2;
