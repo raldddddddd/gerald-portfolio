@@ -8,21 +8,23 @@ import { IsometricHeroCatTree, IsometricHeroWindow } from "@/components/Isometri
 import { ProjectConsoleHero } from "@/components/ProjectConsoleHero";
 import { ProjectCard } from "@/components/ProjectCard";
 import { SkillIcon } from "@/components/SkillIcon";
-import { SkillsReveal } from "@/components/SkillsReveal";
 import { portfolio } from "@/data/portfolio";
 
-function SkillGrid({ skills }: { skills: string[] }) {
+function SkillMarqueeRow({ skills, reverse = false }: { skills: string[]; reverse?: boolean }) {
+  const skillItems = skills.map((skill) => (
+    <li className="stack-skill" key={skill}>
+      <span className="stack-skill-icon"><SkillIcon name={skill} /></span>
+      <span>{skill}</span>
+    </li>
+  ));
+
   return (
-    <SkillsReveal>
-      <ul className="home-skill-grid">
-        {skills.map((skill, index) => (
-          <li className="home-skill" key={skill} style={{ "--skill-index": index } as React.CSSProperties}>
-            <span className="home-skill-icon"><SkillIcon name={skill} /></span>
-            <span>{skill}</span>
-          </li>
-        ))}
-      </ul>
-    </SkillsReveal>
+    <div className={`skill-marquee-row${reverse ? " skill-marquee-row--reverse" : ""}`}>
+      <div className="skill-marquee-track">
+        <ul className="skill-marquee-group">{skillItems}</ul>
+        <ul aria-hidden="true" className="skill-marquee-group">{skillItems}</ul>
+      </div>
+    </div>
   );
 }
 
@@ -30,6 +32,7 @@ export function PortfolioPage({ heroVariant = "default" }: { heroVariant?: "defa
   const firstName = portfolio.name.split(" ")[0];
   const projects = portfolio.projects;
   const skills = Object.values(portfolio.skills).flat();
+  const skillMidpoint = Math.ceil(skills.length / 2);
 
   return (
     <div className={`container${heroVariant === "default" ? " portfolio-home" : ""}`}>
@@ -40,15 +43,14 @@ export function PortfolioPage({ heroVariant = "default" }: { heroVariant?: "defa
           <h1 className="hero-title" id="home-title">Hi, I’m <span>{firstName}.</span></h1>
           <p className="hero-copy">{portfolio.homeDescription}</p>
           <div className="button-row">
-            {heroVariant === "default" && (
-              <a className="button button-primary button-with-icon" href="/resume.pdf" target="_blank" rel="noopener noreferrer">
-                <svg className="resume-button-icon" viewBox="0 0 16 18" fill="none" aria-hidden="true" focusable="false">
-                  <path d="M3 1.5h6l4 4v11H3zM9 1.5v4h4M5.5 9h5M5.5 12h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <span>View Resume</span>
-              </a>
+            {heroVariant === "default" ? (
+              <>
+                <a className="button button-primary hero-contact-button" href="#contact">Get in touch <span aria-hidden="true">→</span></a>
+                <a className="button button-secondary" href="/resume.pdf" target="_blank" rel="noopener noreferrer">View CV</a>
+              </>
+            ) : (
+              <a className="button button-secondary" href="#contact">Get in touch</a>
             )}
-            <a className="button button-secondary" href="#contact">Get in touch</a>
           </div>
           {heroVariant === "default" && (
             <div className="hero-note hero-note--home">
@@ -71,49 +73,68 @@ export function PortfolioPage({ heroVariant = "default" }: { heroVariant?: "defa
       </section>
 
       <section className="section-block home-about" id="about" aria-labelledby="about-title">
-        <div className="home-about-overview">
-          <div className="page-intro">
-            <p className="eyebrow">A little about me</p>
-            <h2 id="about-title">About</h2>
-            <p className="intro-copy">{portfolio.intro}</p>
-          </div>
-          <section className="content-panel" aria-labelledby="education-heading">
-            <p className="eyebrow">Education</p><h2 id="education-heading">{portfolio.education.school}</h2>
-            <p>{portfolio.education.degree}</p><p className="muted">{portfolio.education.location} · {portfolio.education.dates}</p>
-            <p>{portfolio.education.distinction} · GWA {portfolio.education.gwa}</p>
-            <h3>Relevant coursework</h3><ul className="tag-list">{portfolio.education.coursework.map((course) => <li key={course}>{course}</li>)}</ul>
-          </section>
+        <div className="page-intro home-about-heading">
+          <p className="eyebrow">A little about me</p>
+          <h2 id="about-title">About</h2>
+        </div>
+        <div className="home-about-content">
+          <p className="home-about-lead">
+            I’m a Computer Science student majoring in Data Science at Angeles University Foundation. I build practical tools across web, macOS, and mobile, with recent work in AI and product design.
+          </p>
+          <p className="home-about-copy">
+            The cats around this site are a nod to curiosity. I like exploring a problem from different angles, testing ideas, and adding small details that make useful software feel welcoming.
+          </p>
         </div>
       </section>
 
       <section className="section-block experience-section" id="experience" aria-labelledby="experience-title">
         <div className="page-intro">
-          <p className="eyebrow">Work history</p>
+          <p className="eyebrow">Background</p>
           <h2 id="experience-title">Experience</h2>
         </div>
-        <div className="timeline">
-          {portfolio.experience.map((item, index) => (
-            <ExperienceCard key={`${item.organization}-${item.role}`} item={item} index={index} />
-          ))}
+        <div className="experience-layout">
+          <ol className="experience-timeline">
+            {portfolio.experience.map((item, index) => (
+              <ExperienceCard key={`${item.organization}-${item.role}`} item={item} index={index} />
+            ))}
+            <li className="experience-timeline-item experience-education-item">
+              <span className="experience-timeline-marker" aria-hidden="true" />
+              <article className="education-entry">
+                <p className="experience-entry-date">Education · {portfolio.education.dates}</p>
+                <h2>{portfolio.education.school}</h2>
+                <p>{portfolio.education.degree}</p>
+              </article>
+            </li>
+          </ol>
+          <aside className="organizations-panel" aria-labelledby="organizations-title">
+            <p className="eyebrow" id="organizations-title">Organizations</p>
+            <ul className="organization-list">
+              {portfolio.organizations.map((organization) => (
+                <li className="organization-card" key={organization.name}>
+                  <Image alt={organization.alt} className="organization-logo" height={160} src={organization.logo} width={160} />
+                  <div>
+                    <h3>{organization.name}</h3>
+                    <p>{organization.role}</p>
+                    <span className="organization-dates">{organization.dates}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </aside>
         </div>
       </section>
 
-      <section className="section-block home-skills" aria-labelledby="skills-title">
-        <div className="page-intro">
-          <p className="eyebrow">My toolkit</p>
-          <h2 id="skills-title">Skills & technologies</h2>
-          <p className="intro-copy">Languages, data science libraries, frameworks, and tools I use to bring ideas to life.</p>
+      <section className="section-block home-skills" id="skills" aria-labelledby="skills-title">
+        <div className="home-skills-inner">
+          <div className="page-intro">
+            <p className="eyebrow">My toolkit</p>
+            <h2 id="skills-title">Skills & technologies</h2>
+            <p className="intro-copy">Languages, data science libraries, frameworks, and tools I use to bring ideas to life.</p>
+          </div>
         </div>
-        <div className="home-skills-desktop"><SkillGrid skills={skills} /></div>
-        <div className="home-skills-mobile">
-          <div className="home-skills-preview"><SkillGrid skills={skills.slice(0, 4)} /></div>
-          <details className="home-skills-mobile-disclosure">
-            <summary>
-              <span>View all {skills.length} skills</span>
-              <span className="home-skills-chevron" aria-hidden="true">⌄</span>
-            </summary>
-            <div className="home-skills-mobile-content"><SkillGrid skills={skills.slice(4)} /></div>
-          </details>
+        <div className="skill-marquee" aria-label="Technology stack">
+          <SkillMarqueeRow skills={skills.slice(0, skillMidpoint)} />
+          <SkillMarqueeRow reverse skills={skills.slice(skillMidpoint)} />
         </div>
       </section>
 
@@ -139,24 +160,6 @@ export function PortfolioPage({ heroVariant = "default" }: { heroVariant?: "defa
         </div>
       </section>
 
-      <section className="section-block certifications-section" aria-labelledby="certifications-title">
-        <div className="page-intro">
-          <p className="eyebrow">Credentials</p>
-          <h2 id="certifications-title">Certifications</h2>
-        </div>
-        <ul className="certification-grid">
-          {portfolio.certifications.map((certification) => (
-            <li className="certification-card" key={certification.title}>
-              <a className="certification-link" href={certification.url} rel="noreferrer" target="_blank">
-                <Image alt={certification.alt} className="certification-image" height={160} src={certification.image} width={160} />
-                <span className="certification-title">{certification.title}</span>
-                <span className="certification-visit">View credential <span aria-hidden="true">↗</span></span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
-
       <section className="section-block home-contact" id="contact" aria-labelledby="contact-title">
         <div className="page-intro">
           <p className="eyebrow">Say hello</p>
@@ -164,7 +167,6 @@ export function PortfolioPage({ heroVariant = "default" }: { heroVariant?: "defa
         </div>
         <div className="contact-layout">
           <section className="contact-card contact-message-card" aria-label="Email contact">
-            <p className="intro-copy">Have an opportunity, collaboration idea, or quick question? I’d be glad to hear from you.</p>
             <EmailActions />
           </section>
           <section className="contact-card contact-connect-card" aria-label="Contact details">

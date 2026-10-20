@@ -16,13 +16,6 @@ export type Project = {
   featured?: boolean;
 };
 
-export type Certification = {
-  title: string;
-  image: string;
-  alt: string;
-  url: string;
-};
-
 export const portfolio = {
   name: "Gerald Andrei D. Santiago",
   initials: "GS",
@@ -53,45 +46,13 @@ export const portfolio = {
     "Frameworks & libraries": ["PyTorch", "Flutter", "Next.js", "React", "Node.js", "Flask"],
     "Databases & tools": ["PostgreSQL", "MySQL", "Prisma", "Git", "Azure", "Power BI", "Figma"],
   },
-  certifications: [
-    {
-      title: "Microsoft Certified: Azure Fundamentals",
-      image: "/certifications/azure-fundamentals.svg",
-      alt: "Microsoft Certified Fundamentals badge for Azure Fundamentals.",
-      url: "https://learn.microsoft.com/en-us/users/geraldsantiago-1587/credentials/d8ae20d901ff7012?ref=https%3A%2F%2Fwww.linkedin.com%2F",
-    },
-    {
-      title: "Discovering Entrepreneurship",
-      image: "/certifications/discovering-entrepreneurship.png",
-      alt: "Cisco Networking Academy verified badge for Discovering Entrepreneurship.",
-      url: "https://www.credly.com/badges/a96c4310-98b4-4402-9bfc-736766b3d2ca/linked_in_profile",
-    },
-    {
-      title: "Introduction to Data Science",
-      image: "/certifications/introduction-to-data-science.png",
-      alt: "Cisco Networking Academy badge for Introduction to Data Science.",
-      url: "https://www.credly.com/badges/1d8fde0c-eb4c-4629-9c2d-3e4fd37c5ee3/linked_in_profile",
-    },
-    {
-      title: "Introduction to Cybersecurity",
-      image: "/certifications/introduction-to-cybersecurity.png",
-      alt: "Cisco Networking Academy badge for Introduction to Cybersecurity.",
-      url: "https://www.credly.com/badges/889610ea-0a97-41e6-ba83-7169772a4a68/linked_in_profile",
-    },
-    {
-      title: "CCNA: Introduction to Networks",
-      image: "/certifications/ccna-introduction-to-networks.png",
-      alt: "Cisco Networking Academy verified badge for CCNA: Introduction to Networks.",
-      url: "https://www.credly.com/badges/c1df00db-a771-41a8-b5f2-262a4d3cbbcc/linked_in_profile",
-    },
-  ] satisfies Certification[],
   projects: [
     {
       slug: "inbetween",
       name: "Inbetween",
       kind: "Personal project",
       category: "software",
-      dates: "September 2026 – October 2026",
+      dates: "Sep 2026 – Oct 2026",
       description: "A local-first macOS menu bar companion for Codex that tracks wait sessions and activity, with history and productivity insights. It uses Apple Natural Language and sentence embeddings for local activity classification, and connects Python lifecycle hooks to Swift over Unix domain sockets.",
       technologies: ["Swift", "Python", "Apple Natural Language", "Unix domain sockets"],
       githubUrl: "https://github.com/raldddddddd/inbetween",
@@ -109,7 +70,7 @@ export const portfolio = {
       name: "InstaHAM",
       kind: "Thesis project",
       category: "data",
-      dates: "January 2026 – October 2026",
+      dates: "Jan 2026 – Oct 2026",
       description: "A computer-vision system for contactless pig assessment from RGB images, covering view suitability, skin-condition classification, and live-weight estimation, with inference integrated into a Flutter app. Models were trained and evaluated on custom and public datasets, with validated annotations and source-grouped splits to reduce data leakage.",
       technologies: ["Python", "Computer vision", "Machine learning", "Flutter"],
       githubUrl: "https://github.com/iofrmnowhere/instaham",
@@ -135,7 +96,7 @@ export const portfolio = {
       name: "Pop Hop",
       kind: "HackForAll hackathon · Third place overall",
       category: "software",
-      dates: "April 2026",
+      dates: "Apr 2026",
       description: "An all-in-one flea market platform for organizers and vendors in Angeles City, Pampanga, with event applications, booth assignments, payment tracking, and announcements.",
       technologies: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "JWT"],
       githubUrl: "",
@@ -173,11 +134,19 @@ export const portfolio = {
   experience: [
     {
       organization: "Inari Amertron Inc.",
-      role: "MIS Intern",
-      location: "Clark Freeport, Angeles, Pampanga",
-      dates: "June 2026 – July 2026",
+      role: "MIS Software Developer Intern",
+      dates: "Jun 2026 – Jul 2026",
       description: "Collaborated with the MIS team to redevelop EDAS, an internal web app for document change requests, review and approval workflows, controlled documents, and implementation tracking. Contributed to its modernization using PHP, HTML, CSS, JavaScript, and MySQL in an MVC-style structure.",
       technologies: ["PHP", "HTML", "CSS", "JavaScript", "MySQL"],
+    },
+  ],
+  organizations: [
+    {
+      name: "DEVCON Pampanga",
+      role: "Core member",
+      dates: "Dec 2024 – Present",
+      logo: "/devcon-pampanga.png",
+      alt: "DEVCON Pampanga logo",
     },
   ],
   contact: {

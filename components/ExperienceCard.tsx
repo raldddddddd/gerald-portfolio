@@ -1,6 +1,5 @@
 "use client";
 
-import { TechnologyBadges } from "@/components/TechnologyBadges";
 import { useScrollReveal } from "@/components/useScrollReveal";
 import { portfolio } from "@/data/portfolio";
 
@@ -10,10 +9,14 @@ export function ExperienceCard({ item, index }: { item: Experience; index: numbe
   const reveal = useScrollReveal(index);
 
   return (
-    <article className={`experience-card ${reveal.className}`} ref={reveal.ref} style={reveal.style}>
-      <div className="card-topline"><span className="eyebrow">{item.dates}</span><span className="card-date">{item.location}</span></div>
-      <h2>{item.role}</h2><h3>{item.organization}</h3><p>{item.description}</p>
-      <TechnologyBadges className="tag-list" technologies={item.technologies} />
-    </article>
+    <li className="experience-timeline-item">
+      <span className="experience-timeline-marker" aria-hidden="true" />
+      <article className={`experience-card ${reveal.className}`} ref={reveal.ref} style={reveal.style}>
+        <p className="experience-entry-date">{item.dates}</p>
+        <h2>{item.organization}</h2>
+        <h3>{item.role}</h3>
+        <p>{item.description}</p>
+      </article>
+    </li>
   );
 }
