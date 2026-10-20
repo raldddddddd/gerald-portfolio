@@ -4,11 +4,6 @@ import { LocalTime } from "@/components/LocalTime";
 export function ContactDetails() {
   return (
     <div className="contact-details">
-      <section className="contact-detail-group" aria-labelledby="contact-email-label">
-        <h4 className="contact-detail-label" id="contact-email-label">Email</h4>
-        <a className="contact-detail-value" href={`mailto:${portfolio.contact.email}`}>{portfolio.contact.email}</a>
-      </section>
-
       <section className="contact-detail-group" aria-labelledby="contact-location-label">
         <h4 className="contact-detail-label" id="contact-location-label">Based in</h4>
         <p className="contact-detail-value">Pampanga, Philippines</p>

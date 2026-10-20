@@ -53,9 +53,6 @@ export function ProjectConsoleHero({ projects }: { projects: Project[] }) {
             <div className="console-screen-bottom">
               <span className="console-tech-label">BUILT WITH</span>
               <TechnologyBadges className="console-tech-list" technologies={activeProject.technologies.slice(0, 4)} />
-              <a className="console-all-projects" href="#projects" aria-label={`See all projects, including ${activeProject.name}`}>
-                ALL PROJECTS <span aria-hidden="true">↗</span>
-              </a>
             </div>
           </div>
           <div className="console-base" aria-hidden="true"><span /></div>

@@ -53,6 +53,7 @@ export function ThemeToggle() {
   const recoil = useCallback((extension: number, velocity: number, angle: number, angularVelocity: number) => {
     if (animationFrame.current !== null) cancelAnimationFrame(animationFrame.current);
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const maxAngle = window.matchMedia("(max-width: 640px)").matches ? 5 : 18;
     if (reduceMotion) {
       setMotion({ extension: 0, angle: 0 });
       setIsRecoiling(false);
@@ -72,7 +73,7 @@ export function ThemeToggle() {
       speed += (-250 * position - 7 * speed) * dt;
       position += speed * dt;
       const angularMotion = advanceAngularSpring(rotation, spin, dt, speed * 0.025);
-      rotation = angularMotion.angle;
+      rotation = Math.max(-maxAngle, Math.min(maxAngle, angularMotion.angle));
       spin = angularMotion.velocity;
       setMotion({ extension: position, angle: rotation });
       if (Math.abs(position) < 0.2 && Math.abs(speed) < 3 && angularSpringHasSettled(rotation, spin)) {
@@ -135,7 +136,8 @@ export function ThemeToggle() {
     const deltaY = sample.y - dragStart.current.y;
     const extension = resistedExtension(deltaY);
     // SVG's positive rotation swings the lower end left; invert it to track the pointer.
-    const angle = Math.max(-18, Math.min(18, -deltaX * 0.32));
+    const maxAngle = window.matchMedia("(max-width: 640px)").matches ? 5 : 18;
+    const angle = Math.max(-maxAngle, Math.min(maxAngle, -deltaX * 0.32));
     distanceRef.current = Math.hypot(deltaX, deltaY);
     extensionRef.current = extension;
     angleRef.current = angle;
@@ -172,6 +174,7 @@ export function ThemeToggle() {
   };
 
   return (
+    <>
     <button
       aria-label={`${theme === "light" ? "Light" : "Dark"} mode. Pull to switch to ${theme === "light" ? "dark" : "light"} mode.`}
       aria-pressed={theme === "dark"}
@@ -212,5 +215,25 @@ export function ThemeToggle() {
       </svg>
       <span className="sr-only">Toggle color theme</span>
     </button>
+    <button
+      aria-label={`${theme === "light" ? "Light" : "Dark"} mode. Switch to ${theme === "light" ? "dark" : "light"} mode.`}
+      aria-pressed={theme === "dark"}
+      className="mobile-theme-toggle"
+      onClick={toggleTheme}
+      type="button"
+    >
+      <span className="mobile-theme-toggle-label">Theme</span>
+      <span className="mobile-theme-toggle-track" aria-hidden="true">
+        <svg className="mobile-theme-toggle-icon mobile-theme-toggle-icon--sun" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.8" />
+          <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        </svg>
+        <svg className="mobile-theme-toggle-icon mobile-theme-toggle-icon--moon" viewBox="0 0 24 24" fill="none">
+          <path d="M20.2 14.5A8.6 8.6 0 0 1 9.5 3.8 8.6 8.6 0 1 0 20.2 14.5Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+        </svg>
+        <span className="mobile-theme-toggle-thumb" />
+      </span>
+    </button>
+    </>
   );
 }

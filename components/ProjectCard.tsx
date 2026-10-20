@@ -8,8 +8,8 @@ import { useScrollReveal } from "@/components/useScrollReveal";
 export function ProjectCard({ project, variant, index = 0 }: { project: Project; variant?: "featured"; index?: number }) {
   const reveal = useScrollReveal(index);
   const className = `project-card${variant === "featured" ? " project-card--featured" : ""}`;
-  const externalUrl = project.liveUrl || project.githubUrl;
-  const destination = project.liveUrl ? "website" : "GitHub repository";
+  const externalUrl = project.liveUrl || project.githubUrl || project.figmaUrl;
+  const destination = project.liveUrl ? "website" : project.githubUrl ? "GitHub repository" : "Figma design file";
 
   const content = (
     <>
@@ -19,7 +19,7 @@ export function ProjectCard({ project, variant, index = 0 }: { project: Project;
           imagesPerSlide={project.imagesPerSlide}
           intervalMs={project.imageIntervalMs}
           projectName={project.name}
-          className={project.slug === "inbetween" ? "project-image-carousel--inbetween" : project.slug === "instaham" ? "project-image-carousel--instaham" : undefined}
+          className={project.slug === "inbetween" ? "project-image-carousel--inbetween" : project.slug === "instaham" ? "project-image-carousel--instaham" : project.slug === "stray-on-track" ? "project-image-carousel--stray-on-track" : undefined}
         />
       ) : project.image && (
         <img
@@ -32,19 +32,22 @@ export function ProjectCard({ project, variant, index = 0 }: { project: Project;
         <span className="eyebrow">{project.kind}</span>
         <span className="card-date">{project.dates}</span>
       </div>
-      <h2>{project.name}</h2>
+      <h2>
+        {externalUrl ? (
+          <a className="project-title-link" href={externalUrl} target="_blank" rel="noopener noreferrer" aria-label={`Open the ${project.name} ${destination} in a new tab`}>
+            {project.name}
+          </a>
+        ) : project.name}
+      </h2>
       <p>{project.description}</p>
       <TechnologyBadges className="tag-list" technologies={project.technologies} />
+      {externalUrl && (
+        <a className="project-open-link" href={externalUrl} target="_blank" rel="noopener noreferrer">
+          Open {destination} <span aria-hidden="true">↗</span>
+        </a>
+      )}
     </>
   );
-
-  if (externalUrl) {
-    return (
-      <a className={`${className} ${reveal.className}`} ref={reveal.ref} style={reveal.style} href={externalUrl} target="_blank" rel="noopener noreferrer" aria-label={`Open the ${project.name} ${destination} in a new tab`}>
-        {content}
-      </a>
-    );
-  }
 
   return (
     <article className={`${className} ${reveal.className}`} ref={reveal.ref} style={reveal.style}>
