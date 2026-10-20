@@ -81,9 +81,6 @@ export function PortfolioPage({ heroVariant = "default" }: { heroVariant?: "defa
           <p className="home-about-lead">
             I’m a Computer Science student majoring in Data Science at Angeles University Foundation. I build practical tools across web, macOS, and mobile, with recent work in AI and product design.
           </p>
-          <p className="home-about-copy">
-            The cats around this site are a nod to curiosity. I like exploring a problem from different angles, testing ideas, and adding small details that make useful software feel welcoming.
-          </p>
         </div>
       </section>
 
