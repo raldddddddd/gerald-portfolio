@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ContactButtons } from "@/components/ContactButtons";
 import { portfolio } from "@/data/portfolio";
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <ContactButtons variant="footer" />
           </nav>
         </footer>
+        <Analytics />
       </body>
     </html>
   );
