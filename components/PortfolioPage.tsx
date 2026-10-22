@@ -92,6 +92,9 @@ export function PortfolioPage({ heroVariant = "default" }: { heroVariant?: "defa
             <p className="home-about-copy">
               One of the things I enjoy most is product ideation: identifying problems, exploring possibilities, and figuring out how ideas can become useful products. My interests span software development, AI, and product design.
             </p>
+            <p className="home-about-copy">
+              I&apos;m currently working toward the Microsoft Azure Data Fundamentals, AWS Certified Cloud Practitioner, and AWS Certified AI Practitioner certifications.
+            </p>
           </div>
         </div>
       </section>

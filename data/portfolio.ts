@@ -148,7 +148,7 @@ export const portfolio = {
       organization: "Inari Amertron Inc.",
       role: "MIS Software Developer Intern",
       dates: "Jun 2026 – Jul 2026",
-      description: "Collaborated with the MIS team to redevelop EDAS, an internal web app for document change requests, review and approval workflows, controlled documents, and implementation tracking. Contributed to its modernization using PHP, HTML, CSS, JavaScript, and MySQL in an MVC-style structure.",
+      description: "Worked closely with users across the company throughout the software development life cycle (SDLC) and collaborated with the MIS team to redevelop EDAS, an internal web app for document change requests, review and approval workflows, controlled documents, and implementation tracking. Contributed to its modernization using PHP, HTML, CSS, JavaScript, and MySQL within an MVC-style structure.",
       technologies: ["PHP", "HTML", "CSS", "JavaScript", "MySQL"],
     },
   ],
